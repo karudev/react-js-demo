@@ -13,12 +13,31 @@ body {
 }
 .phone{
   background-color: #D2E0E6;
-  padding: 5px;
+  padding: 10px;
   margin: 5px;
+  font-size: 12px;
+  height:150px;
+}
+.phone h2{
+  font-size: 18px;
 }
 .phone.new{
   background-color: #b2dba1;
 }
 .phone.occasion{
   background-color: #ce8483;
+}
+
+.search{
+  font-size: 12px;
+  background: #eef8ff;
+  padding: 5px;
+}
+.search input,.search select{
+  font-size: 12px;
+}
+.search h3{
+  font-size: 16px;
+  text-decoration: underline;
+  margin-top: 5px;
 }

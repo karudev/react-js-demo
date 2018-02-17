@@ -1,36 +1,57 @@
 import React, { Component } from 'react';
 import logo from './../logo.svg';
 import './../App.css';
+import Search from './Search';
+import { connect } from 'react-redux';
+import store from './../Store/MyStore'
 
-    const API = 'http://api.dev/app_dev.php';
+import LiveChat from 'react-livechat';
+
+
+const API = 'http://api.dev';
 //const API = 'http://api.dev/test.php';
 
 class Phone extends Component {
 
     constructor(props){
-        super(props);
+        super(props)
         this.state = {
-            phones : null,
             isLoading : false
         };
+
     }
 
     componentDidMount(){
 
         const self = this;
 
+
         fetch(API + '/phones.json')
             .then((resp) => resp.json())
             .then(function(data){
-                self.setState({isLoading : true, phones : data});
+                store.dispatch({
+                    type: 'SET_PHONES',
+                    phones: data,
+                });
+                self.setState({isLoading : true});
             });
+
+    }
+
+    handleClick(phone){
+
+       alert("Phone => "+ phone.name + ' ('+phone.price+' €)');
 
     }
 
 
   render() {
 
-        const { phones, isLoading } = this.state;
+
+        const {phones} =  store.getState();
+
+        const {isLoading} = this.state;
+
 
         if (isLoading) {
             return (
@@ -40,16 +61,21 @@ class Phone extends Component {
                         <img src={logo} className="App-logo" alt="logo" />
                         <h1 className="App-title">Welcome to React</h1>
                     </header>
-                    <p className="App-intro">
+                    <div className="row App-intro">
 
 
-                        <h1>Téléphones</h1>
-                        <div className="row no-padding">
+                        <div className="col-md-12">
+                            <h1> {phones.length} Téléphones</h1>
+                        </div>
+                        <div className="col-md-3">
+                            <Search />
+                        </div>
+                        <div className="row col-md-9">
                             {phones.map(phone =>
-                                <div className="col-md-3 padding-5">
-                                    <div className="col-md-12 no-padding phone {phone.state}">
+                                <div onClick={(e) => this.handleClick(phone)} className="col-md-3 padding-5">
+                                    <div className={'col-md-12 phone ' + phone.state}>
                                         <div className="col-md-12">
-                                            <h4>{ phone.name}</h4>
+                                            <h2>{ phone.name}</h2>
                                         </div>
                                         <div className="col-md-12">
                                             <i>{ phone.operatingSystem}</i>
@@ -62,7 +88,8 @@ class Phone extends Component {
 
                         </div>
 
-                    </p>
+                    </div>
+                    {/*<LiveChat license={9506870} />*/}
                 </div>
             );
         }else{
@@ -73,4 +100,9 @@ class Phone extends Component {
   }
 }
 
-export default Phone;
+const mapStateToProps = (state) => ({
+    state: state
+});
+
+
+export default connect(mapStateToProps)(Phone);

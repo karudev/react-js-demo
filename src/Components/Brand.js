@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const API = 'http://api.dev/app_dev.php';
+const API = 'http://api.dev';
 
 class Brand extends Component {
 
