@@ -11,7 +11,18 @@ body {
 .padding-5{
   padding: 5px !important;
 }
+.padding-20{
+  padding: 20px !important;
+}
 
+
+.form-signin{
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+
+}
 .phone{
   background-color: #D2E0E6;
   padding: 10px;

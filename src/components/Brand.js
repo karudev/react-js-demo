@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import AuthService from './AuthService';
 
-const API = 'http://api.dev';
+const API = 'http://api.dev/api';
 
 class Brand extends Component {
 
@@ -10,6 +12,8 @@ class Brand extends Component {
             brands : null,
             isLoading : false
         };
+
+        this.authService = new AuthService();
     }
 
     componentDidMount(){
@@ -29,8 +33,13 @@ class Brand extends Component {
 
         const { brands, isLoading } = this.state;
 
+      if(!this.authService.isConnected()){
+          return (<Redirect to='/' />)
 
-        if (isLoading) {
+      }
+
+
+      if (isLoading) {
             console.log(brands);
             return (
 

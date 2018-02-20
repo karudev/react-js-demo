@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import store from './../Store/MyStore'
+import store from './../store/MyStore'
 import { connect } from 'react-redux';
 import ReactTimeout from 'react-timeout';
 import InputRange from 'react-input-range';
+import AuthService from "./AuthService";
 
-const API = 'http://api.dev';
+const API = 'http://api.dev/api';
 
 class Search extends Component{
 
@@ -15,11 +16,18 @@ class Search extends Component{
             capacity : {min : 16 , max: 1024},
             price : {min : 0 , max: 1000}
         };
+
+        this.authService = new AuthService();
+        this.search = this.search.bind(this);
     }
 
 
     search(){
 
+
+
+
+        const self = this;
 
         var suffix = "";
         var name = document.getElementsByName("name")[0].value;
@@ -50,7 +58,12 @@ class Search extends Component{
 
 
 
-        fetch(API + '/phones.json'+suffix)
+        fetch(API + '/phones.json'+suffix,
+            {
+                headers : {
+                    "Authorization" : "Bearer "+self.authService.getToken()
+                }
+            })
             .then((resp) => resp.json())
             .then(function(data){
                 store.dispatch({
